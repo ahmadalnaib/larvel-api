@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,20 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//List Jobs
+Route::get('/jobs',[JobController::class,'index']);
+
+//single job
+Route::get('/jobs/{id}',[JobController::class,'show']);
+
+//create new Job
+Route::post('/job',[JobController::class,'store']);
+
+//update Job
+Route::put('/jobs',[JobController::class,'store']);
+
+//delete job
+Route::delete('/jobs',[JobController::class,'destroy']);
+
+
