@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\JobResource;
+use App\Models\Job;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -13,7 +15,11 @@ class JobController extends Controller
      */
     public function index()
     {
-        //
+        //Get jobs
+        $jobs=Job::paginate(15);
+
+//        return collection of articles as a resource
+        return  JobResource::collection($jobs);
     }
 
     /**
@@ -34,7 +40,16 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $job=$request->isMethod('put') ? Job::findOrFail($request->job_id):new Job;
+        $job->id=$request->input('job_id');
+        $job->title=$request->input('title');
+        $job->body=$request->input('body');
+
+        if($job->save())
+        {
+            return new JobResource($job);
+        }
+
     }
 
     /**
@@ -45,7 +60,8 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        $job=Job::findOrFail($id);
+        return new JobResource($job);
     }
 
     /**
@@ -79,6 +95,12 @@ class JobController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $job=Job::findOrFail($id);
+
+        if($job->delete())
+        {
+            return new JobResource($job);
+        }
+
     }
 }
