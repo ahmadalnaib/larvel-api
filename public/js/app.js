@@ -1866,6 +1866,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1914,6 +1917,23 @@ __webpack_require__.r(__webpack_exports__);
         prev_page_url: links.prev
       };
       this.pagination = pagination;
+    },
+    deleteJob: function deleteJob(id) {
+      var _this3 = this;
+
+      if (confirm('Are you sure?')) {
+        fetch("api/job/".concat(id), {
+          method: 'delete'
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          alert('Job removed');
+
+          _this3.fetchJobs();
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
     }
   }
 });
@@ -37500,6 +37520,21 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("li", { staticClass: "page-item disabled" }, [
+            _c(
+              "a",
+              { staticClass: "page-link text-dark", attrs: { href: "" } },
+              [
+                _vm._v(
+                  "Page " +
+                    _vm._s(_vm.pagination.current_page) +
+                    " of " +
+                    _vm._s(_vm.pagination.last_page)
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
           _c(
             "li",
             {
@@ -37534,7 +37569,22 @@ var render = function() {
               [
                 _c("h3", [_vm._v(_vm._s(job.title))]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(job.body))])
+                _c("p", [_vm._v(_vm._s(job.body))]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteJob(job.id)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
               ]
             )
           })
