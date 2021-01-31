@@ -16,7 +16,7 @@ class JobController extends Controller
     public function index()
     {
         //Get jobs
-        $jobs=Job::paginate(15);
+        $jobs=Job::latest()->paginate(8);
 
 //        return collection of articles as a resource
         return  JobResource::collection($jobs);
