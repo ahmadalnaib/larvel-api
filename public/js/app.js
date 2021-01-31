@@ -1879,6 +1879,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1889,7 +1890,7 @@ __webpack_require__.r(__webpack_exports__);
         title: '',
         body: ''
       },
-      job_is: '',
+      job_id: '',
       pagination: {},
       edit: false
     };
@@ -1966,7 +1967,32 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (err) {
           return console.log(err);
         });
-      } else {}
+      } else {
+        fetch('api/job', {
+          method: 'put',
+          body: JSON.stringify(this.job),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this4.job.title = '';
+          _this4.job.body = '';
+          alert('Job edit');
+
+          _this4.fetchJobs();
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    editJob: function editJob(job) {
+      this.edit = true;
+      this.job.id = job.id;
+      this.job.job_id = job.id;
+      this.job.title = job.title;
+      this.job.body = job.body;
     }
   }
 });
@@ -37688,6 +37714,19 @@ var render = function() {
                     }
                   },
                   [_vm._v("Delete")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-dark",
+                    on: {
+                      click: function($event) {
+                        return _vm.editJob(job)
+                      }
+                    }
+                  },
+                  [_vm._v("Edit")]
                 )
               ]
             )

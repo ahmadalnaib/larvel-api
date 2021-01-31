@@ -27,6 +27,7 @@
             <p>{{job.body}}</p>
             <hr>
             <button class="btn btn-danger" @click="deleteJob(job.id)">Delete</button>
+            <button class="btn btn-dark" @click="editJob(job)">Edit</button>
         </div>
 
     </div>
@@ -43,7 +44,7 @@ export default {
                 title:'',
                 body:'',
             },
-            job_is:'',
+            job_id:'',
             pagination:{},
             edit:false
         }
@@ -112,8 +113,29 @@ export default {
                 .catch(err => console.log(err))
 
             } else{
-
+                fetch('api/job',{
+                    method:'put',
+                    body:JSON.stringify(this.job),
+                    headers:{
+                        'content-type':'application/json'
+                    }
+                })
+                    .then(res=>res.json())
+                    .then(data =>{
+                        this.job.title='';
+                        this.job.body='';
+                        alert('Job edit');
+                        this.fetchJobs();
+                    })
+                    .catch(err => console.log(err))
             }
+        },
+        editJob(job){
+            this.edit=true;
+            this.job.id=job.id;
+            this.job.job_id=job.id;
+            this.job.title=job.title;
+            this.job.body=job.body
         }
     }
 }
