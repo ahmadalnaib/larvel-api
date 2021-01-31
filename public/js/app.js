@@ -1869,6 +1869,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1934,6 +1944,29 @@ __webpack_require__.r(__webpack_exports__);
           return console.log(err);
         });
       }
+    },
+    addJob: function addJob() {
+      var _this4 = this;
+
+      if (this.edit === false) {
+        fetch('api/job', {
+          method: 'post',
+          body: JSON.stringify(this.job),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this4.job.title = '';
+          _this4.job.body = '';
+          alert('Job added');
+
+          _this4.fetchJobs();
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      } else {}
     }
   }
 });
@@ -37493,7 +37526,78 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h2", [_vm._v("Jobs koko")]),
+      _c("h2", [_vm._v("Jobs ")]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "mb-3",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addJob($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.job.title,
+                  expression: "job.title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Title" },
+              domProps: { value: _vm.job.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.job, "title", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.job.body,
+                  expression: "job.body"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { placeholder: "Body", id: "", cols: "30", rows: "10" },
+              domProps: { value: _vm.job.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.job, "body", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("save")]
+          )
+        ]
+      ),
       _vm._v(" "),
       _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
         _c("ul", { staticClass: "pagination" }, [

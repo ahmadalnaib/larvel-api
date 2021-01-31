@@ -1,6 +1,16 @@
 <template>
     <div>
-        <h2>Jobs koko</h2>
+        <h2>Jobs </h2>
+        <form class="mb-3" @submit.prevent="addJob">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Title" v-model="job.title">
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" placeholder="Body" id="" cols="30" rows="10" v-model="job.body"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">save</button>
+        </form>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li :class="[{disabled: !pagination.prev_page_url}]" class="page-item"><a class="page-link" href="#" @click="fetchJobs(pagination.prev_page_url)">Previous</a></li>
@@ -80,6 +90,29 @@ export default {
                     this.fetchJobs()
                 })
                 .catch(err=>console.log(err));
+            }
+        },
+        addJob(){
+            if(this.edit===false)
+            {
+                fetch('api/job',{
+                    method:'post',
+                    body:JSON.stringify(this.job),
+                    headers:{
+                        'content-type':'application/json'
+                    }
+                })
+                .then(res=>res.json())
+                .then(data =>{
+                    this.job.title='';
+                    this.job.body='';
+                    alert('Job added');
+                    this.fetchJobs();
+                })
+                .catch(err => console.log(err))
+
+            } else{
+
             }
         }
     }
